@@ -2,19 +2,25 @@ const express = require("express")
 const mongoose = require("mongoose")
 const dotenv = require("dotenv")
 
-//initialize the app
+// Create express app
 const app = express()
-//initialize the port
-const port = 8800
+
 // dotenv config
 dotenv.config()
 
+//initialize the port
+const port = process.env.PORT
+
 /*db connection
-MONGO_URL = 'mongodb+srv://user:1234@cluster0.lbbedwq.mongodb.net/?retryWrites=true&w=majority'*/
+MONGO_URL is declared at the dotenv '*/
 mongoose.connect(process.env.MONGO_URL)
 .then(() => console.log("MongoDB connected!"))
-.catch(err => console.log(err));
+.catch(err => {
+    console.error("MongoDB connection error:", err);
+    // Terminate the application if unable to connect MongoDB
+    process.exit(1);
+  });
 
 app.listen(port,()=>{
-    console.log("Backend is running")
+    console.log("Backend is Running")
 })
