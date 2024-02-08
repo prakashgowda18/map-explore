@@ -35,4 +35,4 @@ const PinSchema = new mongoose.Schema(
   { timestamps: true }
 )
 
-module.exports = mongoose.model("Pin", PinSchema)
+module.exports = mongoose.model("pin", PinSchema)
