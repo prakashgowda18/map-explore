@@ -1,24 +1,28 @@
 const router = require("express").Router()
-const Pin = require("../models/pin") //Pin model
+const Pin = require("../models/pin") // Pin model
 
-//create a pin
+// Create a pin
 router.post("/", async (req, res) => {
-  const newPin = new Pin(req.body)
   try {
+    const newPin = new Pin(req.body)
     const savedPin = await newPin.save()
-    res.status(200).json(savedPin)
+    res.status(201).json(savedPin) // Status 201 - resource created
   } catch (err) {
-    res.status(500).json(err)
+    if (err.name === 'ValidationError') {
+      res.status(400).json({ message: err.message }) // Status 400 - validation error
+    } else {
+      res.status(500).json({ message: "Internal Server Error" }) // Status 500 - other errors
+    }
   }
 })
 
-//get all pins
+// Get all pins
 router.get("/", async (req, res) => {
   try {
     const pins = await Pin.find()
-    res.status(200).json(pins)
+    res.status(200).json(pins) // Status 200 - success
   } catch (err) {
-    res.status(500).json(err)
+    res.status(500).json({ message: "Internal Server Error" }) // Status 500 - errors
   }
 })
 
