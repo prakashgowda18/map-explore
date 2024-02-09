@@ -2,6 +2,7 @@ const express = require("express")
 const mongoose = require("mongoose")
 const dotenv = require("dotenv")
 const pinRoute = require("./routes/pins")
+const userRoute = require("./routes/users")
 
 // Create express app
 const app = express()
@@ -27,6 +28,7 @@ mongoose.connect(process.env.MONGO_URL)
 
     // API Routes
     app.use("/api/pins", pinRoute)
+    app.use("/api/user", userRoute)
 
 app.listen(port,()=>{
     console.log("Backend is Running")
