@@ -1,8 +1,8 @@
-
+import MapPage from "./pages/MapPage"
 
 function App() {
   return (
-    <p>Hello</p>
+      <MapPage />
   )
 }
 
