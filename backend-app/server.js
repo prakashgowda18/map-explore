@@ -1,11 +1,16 @@
 const express = require("express")
 const mongoose = require("mongoose")
+const cors = require('cors')
 const dotenv = require("dotenv")
 const pinRoute = require("./routes/pins")
 const userRoute = require("./routes/users")
 
+
 // Create express app
 const app = express()
+
+// Enable CORS for all origins
+app.use(cors())
 
 // dotenv config
 dotenv.config()
