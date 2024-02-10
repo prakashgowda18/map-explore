@@ -1,6 +1,7 @@
 import React from 'react'
 import Map, { Marker,NavigationControl } from 'react-map-gl'
-import 'mapbox-gl/dist/mapbox-gl.css';
+import 'mapbox-gl/dist/mapbox-gl.css'
+import LocationOnIcon from '@mui/icons-material/LocationOn';
 
 const MapPage = () => {
     return (
@@ -10,13 +11,14 @@ const MapPage = () => {
                 initialViewState={{
                     longitude: 79.861244,
                     latitude: 6.927079,
-                    zoom: 4
+                    zoom: 10
                 }}
                 mapStyle="mapbox://styles/mapbox/streets-v9"
             >
                 <Marker longitude={79.861244} latitude={6.927079} anchor="bottom" >
+                    <LocationOnIcon style={{fontSize:visualViewport.zoom*10, color:'slateblue'}}/>
                 </Marker>
-                <NavigationControl position='bottom-right'/>
+                <NavigationControl position='top-right'/>
 
             </Map>
         </div>
