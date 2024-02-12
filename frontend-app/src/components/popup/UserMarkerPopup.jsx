@@ -1,7 +1,7 @@
-import React from 'react'
+import React , {lazy} from 'react'
 import { Marker, Popup } from 'react-map-gl'
 import LocationOnIcon from '@mui/icons-material/LocationOn'
-import NewPopupForm from '../forms/newPopup/NewPopupForm'
+const NewPopupForm = lazy(() => import('../forms/newPopup/NewPopupForm'))
 
 const UserMarkerPopup = ({
     newPlace,

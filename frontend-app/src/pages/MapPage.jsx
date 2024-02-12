@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect , lazy } from 'react'
 import Map, { NavigationControl } from 'react-map-gl'
 import axios from "axios"
 import 'mapbox-gl/dist/mapbox-gl.css'
 import './mappage.css'
-import MapMarker from "../components/marker/MapMarker"
-import MarkerPopup from "../components/popup/MarkerPopup"
-import UserMarkerPopup from "../components/popup/UserMarkerPopup"
-import UserAuthentication from '../components/authentication/UserAuthentication'
 
+import MapMarker  from '../components/marker/MapMarker'
+const MarkerPopup = lazy(() => import('../components/popup/MarkerPopup'))
+const UserMarkerPopup = lazy(() => import('../components/popup/UserMarkerPopup'))
+const UserAuthentication = lazy(() => import('../components/authentication/UserAuthentication'))
 
 const MapPage = () => {
     const myStorage = window.localStorage

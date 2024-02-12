@@ -1,6 +1,6 @@
-import React, {useState} from 'react'
-import Register from '../forms/register/Register'
-import Login from '../forms/login/Login' 
+import React, { useState, lazy } from 'react'
+const Register = lazy(() => import('../forms/register/Register'))
+const Login = lazy(() => import('../forms/login/Login'))
 
 const UserAuthentication = ({
     currentUsername,
