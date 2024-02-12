@@ -11,7 +11,8 @@ import './mappage.css'
 
 
 const MapPage = () => {
-    const [currentUsername, setCurrentUsername] = useState(null)
+    const myStorage = window.localStorage
+    const [currentUsername, setCurrentUsername] = useState(myStorage.getItem("user"))
     const [pins, setPins] = useState([])
     const [currentPlaceId, setCurrentPlaceId] = useState(null)
     const [newPlace, setNewPlace] = useState(null)
@@ -205,6 +206,8 @@ const MapPage = () => {
                 {showLogin && (
                     <Login
                         setShowLogin={setShowLogin}
+                        setCurrentUsername={setCurrentUsername}
+                        myStorage={myStorage}
                     />
                 )}
 

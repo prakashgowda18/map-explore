@@ -4,7 +4,7 @@ import axios from "axios"
 import { useRef, useState } from "react"
 import "./login.css"
 
-const Login = ({ setShowLogin }) =>{
+const Login = ({ setShowLogin, setCurrentUsername,myStorage }) =>{
   const [error, setError] = useState(false)
   const usernameRef = useRef()
   const passwordRef = useRef()
@@ -16,9 +16,10 @@ const Login = ({ setShowLogin }) =>{
       password: passwordRef.current.value,
     }
     try {
-      await axios.post("http://localhost:8800/api/user/login", user)
-      setShowLogin(false)
-      setError(true)
+        const res = await axios.post("http://localhost:8800/api/user/login", user);
+        setCurrentUsername(res.data.username);
+        myStorage.setItem('user', res.data.username);
+        setShowLogin(false)
     } catch (err) {
       setError(true)
     }
