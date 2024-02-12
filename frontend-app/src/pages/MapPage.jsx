@@ -9,6 +9,7 @@ import './mappage.css'
 
 
 const MapPage = () => {
+    const currentUser = "john"
     const [pins, setPins] = useState([])
     const [currentPlaceId, setCurrentPlaceId] = useState(null);
 
@@ -52,7 +53,7 @@ const MapPage = () => {
                             onClick={() => handleMarkerClick(p._id)}
                         >
                             <LocationOnIcon
-                                style={{ fontSize: visualViewport.zoom * 10, color: 'slateblue', cursor: "pointer" }}
+                                style={{ fontSize: visualViewport.zoom * 10, color:p.username=== currentUser? '':'tomato', cursor: "pointer" }}
                                 
                             />
                         </Marker>
