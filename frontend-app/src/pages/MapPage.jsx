@@ -71,7 +71,7 @@ const MapPage = () => {
     const handleLogout = () => {
         setCurrentUsername(null)
         myStorage.removeItem("user")
-      }
+    }
 
     return (
         <div style={{ height: "100vh", width: "100%" }}>
@@ -192,19 +192,30 @@ const MapPage = () => {
                     </button>
                 ) : (
                     <div className="buttons">
-                        <button className="button login" onClick={() => setShowLogin(true)}>
+                        <button className="button login" 
+                        onClick={() => {
+                            setShowLogin(true);
+                            setShowRegister(false);
+                        }}
+                        >
                             Log in
                         </button>
                         <button
                             className="button register"
-                            onClick={() => setShowRegister(true)}
+                            jsx
+
+                            onClick={() => {
+                                setShowRegister(true);
+                                setShowLogin(false);
+                            }}
                         >
                             Register
                         </button>
                     </div>
                 )}
                 {showRegister && (
-                    <Register setShowRegister={setShowRegister}
+                    <Register
+                        setShowRegister={setShowRegister}
                     />
                 )}
                 {showLogin && (
