@@ -12,6 +12,7 @@ const MapPage = () => {
     const currentUser = "john"
     const [pins, setPins] = useState([])
     const [currentPlaceId, setCurrentPlaceId] = useState(null);
+    const [newPlace, setNewPlace] = useState(null);
 
     useEffect(() => {
         const getPins = async () => {
@@ -25,6 +26,16 @@ const MapPage = () => {
         getPins()
     }, [])
 
+    const handleAddClick = (e) => {
+        if (e.lngLat) {
+            const { lng, lat } = e.lngLat
+            setNewPlace({
+                lat: lat,
+                long: lng,
+            })
+        }
+    }
+
     const handleMarkerClick = (id) => {
         setCurrentPlaceId(id)
         console.log(`${id}`)
@@ -37,9 +48,11 @@ const MapPage = () => {
                 initialViewState={{
                     longitude: 79.861244,
                     latitude: 6.927079,
-                    zoom: 2
+                    zoom: 5,
+
                 }}
                 mapStyle="mapbox://styles/mapbox/streets-v9"
+                onDblClick={handleAddClick}
             >
                 <NavigationControl position='top-right' />
 
@@ -53,8 +66,8 @@ const MapPage = () => {
                             onClick={() => handleMarkerClick(p._id)}
                         >
                             <LocationOnIcon
-                                style={{ fontSize: visualViewport.zoom * 10, color:p.username=== currentUser? '':'tomato', cursor: "pointer" }}
-                                
+                                style={{ fontSize: 40, color: p.username === currentUser ? 'slateblue' : 'tomato', cursor: "pointer" }}
+
                             />
                         </Marker>
 
@@ -66,7 +79,7 @@ const MapPage = () => {
                                 anchor="left"
                                 closeOnClick={false}
                                 onClose={() => setCurrentPlaceId(null)}
-                                
+
                             >
                                 <div className="card">
                                     <label>Place</label>
@@ -84,6 +97,41 @@ const MapPage = () => {
                                     <span className="date">{format(p.createdAt)}</span>
                                 </div>
                             </Popup>)}
+                        {newPlace &&
+                            <Popup
+                                latitude={newPlace.lat}
+                                longitude={newPlace.long}
+                                key={p._id}
+                                anchor="left"
+                                closeOnClick={false}
+                                onClose={() => setNewPlace(null)}
+
+                            >
+                                <div>
+                <form >
+                  <label>Title</label>
+                  <input
+                    placeholder="Enter a title"
+                    autoFocus
+                  />
+                  <label>Description</label>
+                  <textarea
+                    placeholder="Say us something about this place."
+                  />
+                  <label>Rating</label>
+                  <select>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                  </select>
+                  <button type="submit" className="submitButton">
+                    Add Pin
+                  </button>
+                </form>
+              </div>
+                            </Popup>}
 
                     </>
                 ))}
