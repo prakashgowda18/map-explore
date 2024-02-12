@@ -18,11 +18,11 @@ dotenv.config()
 // Parse JSON bodies
 app.use(express.json());
 
-//initialize the port
-const port = process.env.PORT || 8800
+//initialize the port-Enter a port
+const port = process.env.PORT
 
 /*db connection
-MONGO_URL is declared at the dotenv '*/
+MONGO_URL - Enter the DB url '*/
 mongoose.connect(process.env.MONGO_URL)
 .then(() => console.log("MongoDB connected!"))
 .catch(err => {

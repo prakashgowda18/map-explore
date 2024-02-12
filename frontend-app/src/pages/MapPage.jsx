@@ -43,7 +43,7 @@ const MapPage = () => {
            
             {/*Mapbox map */}
             <Map
-                mapboxAccessToken={process.env.REACT_APP_MAPBOX}
+                mapboxAccessToken={process.env.REACT_APP_MAPBOX}// Use your mapbox public access token
                 initialViewState={{
                     longitude: 79.861244,
                     latitude: 6.927079,
