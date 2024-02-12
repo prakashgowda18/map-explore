@@ -68,6 +68,10 @@ const MapPage = () => {
             console.log(err)
         }
     }
+    const handleLogout = () => {
+        setCurrentUsername(null)
+        myStorage.removeItem("user")
+      }
 
     return (
         <div style={{ height: "100vh", width: "100%" }}>
@@ -183,7 +187,7 @@ const MapPage = () => {
                     </>
                 )}
                 {currentUsername ? (
-                    <button className="button logout">
+                    <button className="button logout" onClick={handleLogout}>
                         Log out
                     </button>
                 ) : (
