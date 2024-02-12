@@ -11,16 +11,19 @@ import './mappage.css'
 const MapPage = () => {
     const currentUser = "john"
     const [pins, setPins] = useState([])
-    const [currentPlaceId, setCurrentPlaceId] = useState(null);
-    const [newPlace, setNewPlace] = useState(null);
+    const [currentPlaceId, setCurrentPlaceId] = useState(null)
+    const [newPlace, setNewPlace] = useState(null)
+    const [title, setTitle] = useState(null)
+    const [desc, setDesc] = useState(null)
+    const [star, setStar] = useState(0)
 
     useEffect(() => {
         const getPins = async () => {
             try {
-                const allPins = await axios.get("http://localhost:8800/api/pins");
-                setPins(allPins.data);
+                const allPins = await axios.get("http://localhost:8800/api/pins")
+                setPins(allPins.data)
             } catch (err) {
-                console.log(err);
+                console.log(err)
             }
         }
         getPins()
@@ -40,6 +43,26 @@ const MapPage = () => {
         setCurrentPlaceId(id)
         console.log(`${id}`)
     }
+
+    const handleSubmit = async (e) => {
+        e.preventDefault()
+        const newPin = {
+          username: currentUser,
+          title,
+          desc,
+          rating: star,
+          lat: newPlace.lat,
+          long: newPlace.long,
+        }
+    
+        try {
+          const res = await axios.post("http://localhost:8800/api/pins", newPin)
+          setPins([...pins, res.data])
+          setNewPlace(null)
+        } catch (err) {
+          console.log(err)
+        }
+      }
 
     return (
         <div style={{ height: "100vh", width: "100%" }}>
@@ -66,7 +89,7 @@ const MapPage = () => {
                             onClick={() => handleMarkerClick(p._id)}
                         >
                             <LocationOnIcon
-                                style={{ fontSize: 40, color: p.username === currentUser ? 'slateblue' : 'tomato', cursor: "pointer" }}
+                                style={{ fontSize: 40, color: p.username === currentUser ? 'tomato' : 'slateblue', cursor: "pointer" }}
 
                             />
                         </Marker>
@@ -97,7 +120,21 @@ const MapPage = () => {
                                     <span className="date">{format(p.createdAt)}</span>
                                 </div>
                             </Popup>)}
-                        {newPlace &&
+                        {newPlace && (
+                            <>
+                            <Marker
+                            latitude={newPlace.lat}
+                            longitude={newPlace.long}
+                        >
+                            <LocationOnIcon
+                                style={{
+                                    fontSize: 40,
+                                    color: "tomato",
+                                    cursor: "pointer",
+                                  }}
+
+                            />
+                        </Marker>
                             <Popup
                                 latitude={newPlace.lat}
                                 longitude={newPlace.long}
@@ -108,30 +145,34 @@ const MapPage = () => {
 
                             >
                                 <div>
-                <form >
-                  <label>Title</label>
-                  <input
-                    placeholder="Enter a title"
-                    autoFocus
-                  />
-                  <label>Description</label>
-                  <textarea
-                    placeholder="Say us something about this place."
-                  />
-                  <label>Rating</label>
-                  <select>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                  </select>
-                  <button type="submit" className="submitButton">
-                    Add Pin
-                  </button>
-                </form>
-              </div>
-                            </Popup>}
+                                    <form onSubmit={handleSubmit}>
+                                        <label>Title</label>
+                                        <input
+                                            placeholder="Enter a title"
+                                            autoFocus
+                                            onChange={(e) => setTitle(e.target.value)}
+                                        />
+                                        <label>Description</label>
+                                        <textarea
+                                            placeholder="Say us something about this place."
+                                            onChange={(e) => setDesc(e.target.value)}
+                                        />
+                                        <label>Rating</label>
+                                        <select onChange={(e) => setStar(e.target.value)}>
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="4">4</option>
+                                            <option value="5">5</option>
+                                        </select>
+                                        <button type="submit" className="submitButton">
+                                            Add Pin
+                                        </button>
+                                    </form>
+                                </div>
+                            </Popup>
+                            </>
+                            )}
 
                     </>
                 ))}
