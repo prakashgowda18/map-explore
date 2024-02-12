@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from 'react'
 import Map, { Marker, NavigationControl, Popup } from 'react-map-gl'
 import axios from "axios"
+import { format } from "timeago.js"
 import 'mapbox-gl/dist/mapbox-gl.css'
-import { format } from 'timeago.js'
 import LocationOnIcon from '@mui/icons-material/LocationOn'
 import StarIcon from '@mui/icons-material/Star'
 import './mappage.css'
 
 
 const MapPage = () => {
-    const [showPopup, setShowPopup] = useState(true)
     const [pins, setPins] = useState([])
+    const [currentPlaceId, setCurrentPlaceId] = useState(null);
 
     useEffect(() => {
         const getPins = async () => {
@@ -23,6 +23,11 @@ const MapPage = () => {
         }
         getPins()
     }, [])
+
+    const handleMarkerClick = (id) => {
+        setCurrentPlaceId(id)
+        console.log(`${id}`)
+    }
 
     return (
         <div style={{ height: "100vh", width: "100%" }}>
@@ -40,14 +45,28 @@ const MapPage = () => {
                 {pins.map(p => (
 
                     <>
-                        <Marker latitude={p.lat} longitude={p.long} anchor="bottom" >
-                            <LocationOnIcon style={{ fontSize: visualViewport.zoom * 10, color: 'slateblue' }} />
+                        <Marker
+                            latitude={p.lat}
+                            longitude={p.long}
+                            anchor="bottom"
+                            onClick={() => handleMarkerClick(p._id)}
+                        >
+                            <LocationOnIcon
+                                style={{ fontSize: visualViewport.zoom * 10, color: 'slateblue', cursor: "pointer" }}
+                                
+                            />
                         </Marker>
 
-                        {showPopup && (
-                            <Popup latitude={p.lat} longitude={p.long} key={p._id}
+                        {p._id === currentPlaceId && (
+                            <Popup
+                                latitude={p.lat}
+                                longitude={p.long}
+                                key={p._id}
                                 anchor="left"
-                                onClose={() => setShowPopup(false)}>
+                                closeOnClick={false}
+                                onClose={() => setCurrentPlaceId(null)}
+                                
+                            >
                                 <div className="card">
                                     <label>Place</label>
                                     <h4 className="place">{p.title}</h4>
@@ -64,6 +83,7 @@ const MapPage = () => {
                                     <span className="date">{format(p.createdAt)}</span>
                                 </div>
                             </Popup>)}
+
                     </>
                 ))}
 
