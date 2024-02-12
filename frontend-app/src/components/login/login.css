@@ -1,6 +1,6 @@
-.registerContainer {
+.loginContainer {
     width: 300px;
-    height: 250px;
+    height: 200px;
     padding: 20px;
     border-radius: 10px;
     background-color: white;
@@ -16,7 +16,7 @@
     justify-content: space-between;
   }
   
-  .registerCancel {
+  .loginCancel {
     position: absolute;
     top: 3px;
     right: 3px;
@@ -27,22 +27,16 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    color: slateblue;
+    color: teal;
     font-weight: 700;
   }
   
-  .registerBtn {
+  .loginBtn {
     border: none;
     padding: 5px;
-    background-color: slateblue;
+    background-color: teal;
     color: white;
     cursor: pointer;
-  }
-  
-  .success {
-    font-size: 12px;
-    color: green;
-    text-align: center;
   }
   
   .failure {
