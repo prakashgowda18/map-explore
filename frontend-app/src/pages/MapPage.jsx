@@ -6,6 +6,7 @@ import 'mapbox-gl/dist/mapbox-gl.css'
 import LocationOnIcon from '@mui/icons-material/LocationOn'
 import StarIcon from '@mui/icons-material/Star'
 import Register from "../components/register/Register"
+import Login from "../components/login/Login"
 import './mappage.css'
 
 
@@ -18,6 +19,7 @@ const MapPage = () => {
     const [desc, setDesc] = useState(null)
     const [star, setStar] = useState(0)
     const [showRegister, setShowRegister] = useState(false)
+    const [showLogin, setShowLogin] = useState(false)
 
     useEffect(() => {
         const getPins = async () => {
@@ -121,83 +123,91 @@ const MapPage = () => {
                                     </span>
                                     <span className="date">{format(p.createdAt)}</span>
                                 </div>
-                            </Popup>)}
-                        {newPlace && (
-                            <>
-                                <Marker
-                                    latitude={newPlace.lat}
-                                    longitude={newPlace.long}
-                                >
-                                    <LocationOnIcon
-                                        style={{
-                                            fontSize: 40,
-                                            color: "tomato",
-                                            cursor: "pointer",
-                                        }}
-
-                                    />
-                                </Marker>
-                                <Popup
-                                    latitude={newPlace.lat}
-                                    longitude={newPlace.long}
-                                    key={p._id}
-                                    anchor="left"
-                                    closeOnClick={false}
-                                    onClose={() => setNewPlace(null)}
-
-                                >
-                                    <div>
-                                        <form onSubmit={handleSubmit}>
-                                            <label>Title</label>
-                                            <input
-                                                placeholder="Enter a title"
-                                                autoFocus
-                                                onChange={(e) => setTitle(e.target.value)}
-                                            />
-                                            <label>Description</label>
-                                            <textarea
-                                                placeholder="Say us something about this place."
-                                                onChange={(e) => setDesc(e.target.value)}
-                                            />
-                                            <label>Rating</label>
-                                            <select onChange={(e) => setStar(e.target.value)}>
-                                                <option value="1">1</option>
-                                                <option value="2">2</option>
-                                                <option value="3">3</option>
-                                                <option value="4">4</option>
-                                                <option value="5">5</option>
-                                            </select>
-                                            <button type="submit" className="submitButton">
-                                                Add Pin
-                                            </button>
-                                        </form>
-                                    </div>
-                                </Popup>
-                            </>
+                            </Popup>
                         )}
-                        {currentUsername ? (
-                            <button className="button logout">
-                                Log out
-                            </button>
-                        ) : (
-                            <div className="buttons">
-                                <button className="button login" onClick={() => setShowLogin(true)}>
-                                    Log in
-                                </button>
-                                <button
-                                    className="button register"
-                                    onClick={() => setShowRegister(true)}
-                                >
-                                    Register
-                                </button>
-                            </div>
-                        )}
-                        {showRegister && <Register setShowRegister={setShowRegister} />}
-                        <Register />
-
 
                     </>
                 ))}
+
+                {newPlace && currentUsername && (
+                    <>
+                        <Marker
+                            latitude={newPlace.lat}
+                            longitude={newPlace.long}
+                        >
+                            <LocationOnIcon
+                                style={{
+                                    fontSize: 40,
+                                    color: "tomato",
+                                    cursor: "pointer",
+                                }}
+
+                            />
+                        </Marker>
+                        <Popup
+                            latitude={newPlace.lat}
+                            longitude={newPlace.long}
+                            anchor="left"
+                            closeOnClick={false}
+                            onClose={() => setNewPlace(null)}
+
+                        >
+                            <div>
+                                <form onSubmit={handleSubmit}>
+                                    <label>Title</label>
+                                    <input
+                                        placeholder="Enter a title"
+                                        autoFocus
+                                        onChange={(e) => setTitle(e.target.value)}
+                                    />
+                                    <label>Description</label>
+                                    <textarea
+                                        placeholder="Say us something about this place."
+                                        onChange={(e) => setDesc(e.target.value)}
+                                    />
+                                    <label>Rating</label>
+                                    <select onChange={(e) => setStar(e.target.value)}>
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                        <option value="5">5</option>
+                                    </select>
+                                    <button type="submit" className="submitButton">
+                                        Add Pin
+                                    </button>
+                                </form>
+                            </div>
+                        </Popup>
+                    </>
+                )}
+                {currentUsername ? (
+                    <button className="button logout">
+                        Log out
+                    </button>
+                ) : (
+                    <div className="buttons">
+                        <button className="button login" onClick={() => setShowLogin(true)}>
+                            Log in
+                        </button>
+                        <button
+                            className="button register"
+                            onClick={() => setShowRegister(true)}
+                        >
+                            Register
+                        </button>
+                    </div>
+                )}
+                {showRegister && (
+                    <Register setShowRegister={setShowRegister}
+                    />
+                )}
+                {showLogin && (
+                    <Login
+                        setShowLogin={setShowLogin}
+                    />
+                )}
+
 
             </Map>
         </div>
