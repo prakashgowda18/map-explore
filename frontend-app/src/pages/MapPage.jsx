@@ -5,17 +5,19 @@ import { format } from "timeago.js"
 import 'mapbox-gl/dist/mapbox-gl.css'
 import LocationOnIcon from '@mui/icons-material/LocationOn'
 import StarIcon from '@mui/icons-material/Star'
+import Register from "../components/register/Register"
 import './mappage.css'
 
 
 const MapPage = () => {
-    const currentUser = "john"
+    const [currentUsername, setCurrentUsername] = useState(null)
     const [pins, setPins] = useState([])
     const [currentPlaceId, setCurrentPlaceId] = useState(null)
     const [newPlace, setNewPlace] = useState(null)
     const [title, setTitle] = useState(null)
     const [desc, setDesc] = useState(null)
     const [star, setStar] = useState(0)
+    const [showRegister, setShowRegister] = useState(false)
 
     useEffect(() => {
         const getPins = async () => {
@@ -47,22 +49,22 @@ const MapPage = () => {
     const handleSubmit = async (e) => {
         e.preventDefault()
         const newPin = {
-          username: currentUser,
-          title,
-          desc,
-          rating: star,
-          lat: newPlace.lat,
-          long: newPlace.long,
+            username: currentUsername,
+            title,
+            desc,
+            rating: star,
+            lat: newPlace.lat,
+            long: newPlace.long,
         }
-    
+
         try {
-          const res = await axios.post("http://localhost:8800/api/pins", newPin)
-          setPins([...pins, res.data])
-          setNewPlace(null)
+            const res = await axios.post("http://localhost:8800/api/pins", newPin)
+            setPins([...pins, res.data])
+            setNewPlace(null)
         } catch (err) {
-          console.log(err)
+            console.log(err)
         }
-      }
+    }
 
     return (
         <div style={{ height: "100vh", width: "100%" }}>
@@ -77,7 +79,7 @@ const MapPage = () => {
                 mapStyle="mapbox://styles/mapbox/streets-v9"
                 onDblClick={handleAddClick}
             >
-                <NavigationControl position='top-right' />
+                <NavigationControl position='top-left' />
 
                 {pins.map(p => (
 
@@ -89,7 +91,7 @@ const MapPage = () => {
                             onClick={() => handleMarkerClick(p._id)}
                         >
                             <LocationOnIcon
-                                style={{ fontSize: 40, color: p.username === currentUser ? 'tomato' : 'slateblue', cursor: "pointer" }}
+                                style={{ fontSize: 40, color: p.username === currentUsername ? 'tomato' : 'slateblue', cursor: "pointer" }}
 
                             />
                         </Marker>
@@ -122,57 +124,77 @@ const MapPage = () => {
                             </Popup>)}
                         {newPlace && (
                             <>
-                            <Marker
-                            latitude={newPlace.lat}
-                            longitude={newPlace.long}
-                        >
-                            <LocationOnIcon
-                                style={{
-                                    fontSize: 40,
-                                    color: "tomato",
-                                    cursor: "pointer",
-                                  }}
+                                <Marker
+                                    latitude={newPlace.lat}
+                                    longitude={newPlace.long}
+                                >
+                                    <LocationOnIcon
+                                        style={{
+                                            fontSize: 40,
+                                            color: "tomato",
+                                            cursor: "pointer",
+                                        }}
 
-                            />
-                        </Marker>
-                            <Popup
-                                latitude={newPlace.lat}
-                                longitude={newPlace.long}
-                                key={p._id}
-                                anchor="left"
-                                closeOnClick={false}
-                                onClose={() => setNewPlace(null)}
+                                    />
+                                </Marker>
+                                <Popup
+                                    latitude={newPlace.lat}
+                                    longitude={newPlace.long}
+                                    key={p._id}
+                                    anchor="left"
+                                    closeOnClick={false}
+                                    onClose={() => setNewPlace(null)}
 
-                            >
-                                <div>
-                                    <form onSubmit={handleSubmit}>
-                                        <label>Title</label>
-                                        <input
-                                            placeholder="Enter a title"
-                                            autoFocus
-                                            onChange={(e) => setTitle(e.target.value)}
-                                        />
-                                        <label>Description</label>
-                                        <textarea
-                                            placeholder="Say us something about this place."
-                                            onChange={(e) => setDesc(e.target.value)}
-                                        />
-                                        <label>Rating</label>
-                                        <select onChange={(e) => setStar(e.target.value)}>
-                                            <option value="1">1</option>
-                                            <option value="2">2</option>
-                                            <option value="3">3</option>
-                                            <option value="4">4</option>
-                                            <option value="5">5</option>
-                                        </select>
-                                        <button type="submit" className="submitButton">
-                                            Add Pin
-                                        </button>
-                                    </form>
-                                </div>
-                            </Popup>
+                                >
+                                    <div>
+                                        <form onSubmit={handleSubmit}>
+                                            <label>Title</label>
+                                            <input
+                                                placeholder="Enter a title"
+                                                autoFocus
+                                                onChange={(e) => setTitle(e.target.value)}
+                                            />
+                                            <label>Description</label>
+                                            <textarea
+                                                placeholder="Say us something about this place."
+                                                onChange={(e) => setDesc(e.target.value)}
+                                            />
+                                            <label>Rating</label>
+                                            <select onChange={(e) => setStar(e.target.value)}>
+                                                <option value="1">1</option>
+                                                <option value="2">2</option>
+                                                <option value="3">3</option>
+                                                <option value="4">4</option>
+                                                <option value="5">5</option>
+                                            </select>
+                                            <button type="submit" className="submitButton">
+                                                Add Pin
+                                            </button>
+                                        </form>
+                                    </div>
+                                </Popup>
                             </>
-                            )}
+                        )}
+                        {currentUsername ? (
+                            <button className="button logout">
+                                Log out
+                            </button>
+                        ) : (
+                            <div className="buttons">
+                                <button className="button login" onClick={() => setShowLogin(true)}>
+                                    Log in
+                                </button>
+                                <button
+                                    className="button register"
+                                    onClick={() => setShowRegister(true)}
+                                >
+                                    Register
+                                </button>
+                            </div>
+                        )}
+                        {showRegister && <Register setShowRegister={setShowRegister} />}
+                        <Register />
+
 
                     </>
                 ))}
