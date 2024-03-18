@@ -1,5 +1,6 @@
 import React, { useState, lazy, Suspense } from 'react'
 import Loader from '../ui/Loader'
+import Swal from 'sweetalert2' //Sweet alert
 const Register = lazy(() => import('../forms/register/Register'))
 const Login = lazy(() => import('../forms/login/Login'))
 
@@ -12,14 +13,21 @@ const UserAuthentication = ({
     const [showLogin, setShowLogin] = useState(false)
 
     const handleLogout = () => {
-        // Show confirmation dialog
-        const confirmLogout = window.confirm("Are you sure you want to log out?")
-
-        // Check if user confirmed the logout
-        if (confirmLogout) {
-            setCurrentUsername(null)
-            myStorage.removeItem("user")
-        }
+        // Show confirmation dialog with sweet alert
+        Swal.fire({
+            title: "Are you sure you want to log out?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, Logout !"
+          }).then((result) => {
+            if (result.isConfirmed) {
+                setCurrentUsername(null)
+                myStorage.removeItem("user")
+            }
+          })
     }
 
     return (

@@ -3,7 +3,7 @@ import Map, { NavigationControl } from 'react-map-gl'
 import axios from "axios"
 import 'mapbox-gl/dist/mapbox-gl.css'
 import './mappage.css'
-import Loader from '../components/ui/Loader'
+import Loader from '../components/ui/Loader' //Loader for suspense
 
 import MapMarker  from '../components/marker/MapMarker'
 const MarkerPopup = lazy(() => import('../components/popup/MarkerPopup'))
@@ -41,7 +41,6 @@ const MapPage = () => {
 
     return (
         <div style={{ height: "100vh", width: "100%" }}>
-                <Loader/> 
             {/*Mapbox map */}
             <Map
                 mapboxAccessToken={process.env.REACT_APP_MAPBOX}// Use your mapbox public access token
