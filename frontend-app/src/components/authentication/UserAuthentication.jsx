@@ -1,4 +1,5 @@
-import React, { useState, lazy } from 'react'
+import React, { useState, lazy, Suspense } from 'react'
+import Loader from '../ui/Loader'
 const Register = lazy(() => import('../forms/register/Register'))
 const Login = lazy(() => import('../forms/login/Login'))
 
@@ -43,8 +44,10 @@ const UserAuthentication = ({
                     </button>
                 </div>
             )}
+            <Suspense fallback={<Loader/>}> 
             {showRegister && <Register setShowRegister={setShowRegister} />}
             {showLogin && <Login setShowLogin={setShowLogin} setCurrentUsername={setCurrentUsername} myStorage={myStorage} />}
+            </Suspense>
         </>
     )
 }

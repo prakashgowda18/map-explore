@@ -1,8 +1,9 @@
-import React, { useState, useEffect , lazy } from 'react'
+import React, { useState, useEffect , lazy, Suspense } from 'react'
 import Map, { NavigationControl } from 'react-map-gl'
 import axios from "axios"
 import 'mapbox-gl/dist/mapbox-gl.css'
 import './mappage.css'
+import Loader from '../components/ui/Loader'
 
 import MapMarker  from '../components/marker/MapMarker'
 const MarkerPopup = lazy(() => import('../components/popup/MarkerPopup'))
@@ -40,7 +41,7 @@ const MapPage = () => {
 
     return (
         <div style={{ height: "100vh", width: "100%" }}>
-           
+                <Loader/> 
             {/*Mapbox map */}
             <Map
                 mapboxAccessToken={process.env.REACT_APP_MAPBOX}// Use your mapbox public access token
@@ -64,14 +65,17 @@ const MapPage = () => {
                     setCurrentPlaceId={setCurrentPlaceId}
                 />
                 {/*Popup on Marker */}
+                <Suspense fallback={<Loader/>}>  
                 <MarkerPopup
                     p={p}
                     currentPlaceId={currentPlaceId}
                     setCurrentPlaceId={setCurrentPlaceId}
                 />
+                </Suspense>  
             </>
             ))}   
-                {/* User popup creation */}             
+                {/* User popup creation */}  
+                <Suspense fallback={<Loader/>}>       
                 <UserMarkerPopup
                     newPlace={newPlace}
                     currentUsername={currentUsername}
@@ -85,6 +89,7 @@ const MapPage = () => {
                     setCurrentUsername = {setCurrentUsername}
                     myStorage = {myStorage}
                 />
+                </Suspense>    
             </Map>
         </div>
     )

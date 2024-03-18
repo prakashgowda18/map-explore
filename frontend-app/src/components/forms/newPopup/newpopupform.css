@@ -4,18 +4,18 @@ form {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    color: rgb(88, 87, 87);
+    color: var(--form-color);
   }
   
   input {
     border: none;
-    border-bottom: 1px solid gray;
+    border-bottom: 1px solid var(--gray-color);
   }
   
   input::placeholder,
   textarea::placeholder {
     font-size: 12px;
-    color: rgb(185, 184, 184);
+    color: var(--placeholder-color);
   }
   
   input:focus,
@@ -26,14 +26,14 @@ form {
   
   textarea {
     border: none;
-    border-bottom: 1px solid gray;
+    border-bottom: 1px solid var(--gray-color);
   }
   
   .submitButton {
     border: none;
     padding: 5px;
     border-radius: 5px;
-    color: white;
-    background-color: tomato;
+    color: var(--white-color);
+    background-color: var(--red-color);
     cursor: pointer;
   }
