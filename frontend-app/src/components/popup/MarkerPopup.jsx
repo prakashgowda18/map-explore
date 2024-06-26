@@ -1,9 +1,12 @@
-import React from 'react'
+import React, {useContext}from 'react'
 import { Popup } from 'react-map-gl'
 import StarIcon from '@mui/icons-material/Star'
 import { format } from 'timeago.js'
+import { LocationContext } from '../../context/LocationContext'
 
-const MarkerPopup = ({ p, currentPlaceId, setCurrentPlaceId }) => {
+const MarkerPopup = ({p}) => {
+    const { currentPlaceId,SetCurrentPlaceId} = useContext(LocationContext)
+
     return (
         <>
             {p._id === currentPlaceId && (
@@ -13,7 +16,7 @@ const MarkerPopup = ({ p, currentPlaceId, setCurrentPlaceId }) => {
                     key={p._id}
                     anchor="left"
                     closeOnClick={false}
-                    onClose={() => setCurrentPlaceId(null)}
+                    onClose={() => SetCurrentPlaceId(null)}
                 >
                     <div className="card">
                         <label>Place</label>

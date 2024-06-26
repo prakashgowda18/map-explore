@@ -1,8 +1,15 @@
-import React, { useState } from 'react'
-import axios from 'axios'
+import React, { useState, useContext} from 'react'
 import './newpopupform.css'
+import apiRequest from '../../../lib/ApiReqest'
 
-const NewPopupForm = ({ currentUsername, newPlace, pins, setPins, setNewPlace }) => {
+import {LocationContext} from "../../../context/LocationContext"
+import { AuthContext } from "../../../context/AuthContext"
+
+const NewPopupForm = () => {
+
+    const { pins, SetPins,newPlace,SetNewPlace} = useContext(LocationContext)
+    const { currentUser} = useContext(AuthContext)
+
     const [title, setTitle] = useState(null)
     const [desc, setDesc] = useState(null)
     const [star, setStar] = useState(0)
@@ -10,7 +17,7 @@ const NewPopupForm = ({ currentUsername, newPlace, pins, setPins, setNewPlace })
     const handleSubmit = async (e) => {
         e.preventDefault()
         const newPin = {
-            username: currentUsername,
+            username: currentUser,
             title,
             desc,
             rating: star,
@@ -19,11 +26,11 @@ const NewPopupForm = ({ currentUsername, newPlace, pins, setPins, setNewPlace })
         }
 
         try {
-            const res = await axios.post("http://localhost:8800/api/pins", newPin)
-            setPins([...pins, res.data])
-            setNewPlace(null)
+            const res = await apiRequest.post("/api/pins", newPin)
+            SetPins([...pins, res.data])
+            SetNewPlace(null)
         } catch (err) {
-            console.log(err)
+            console.log("an error Occured")
         }
     }
 

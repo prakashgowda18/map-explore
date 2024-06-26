@@ -3,7 +3,7 @@
   --red-color:rgb(255, 96, 68);
   --blue-color:rgb(107, 91, 206);
   --form-color:rgb(88, 87, 87);
-  --placeholder-color:rgb(185, 184, 184);
+  --placeholder-color:rgb(71, 65, 65);
   --gray-color:rgb(126, 126, 126);
   --white-color:rgb(255, 255, 255);
   --green-color:rgb(7, 139, 7);
@@ -24,7 +24,7 @@
   label {
     width: max-content;
     color: var(--red-color);
-    font-size: 13px;
+    font-size: 15px;
     border-bottom: 0.5px solid var(--red-color);
     margin: 3px 0;
   }

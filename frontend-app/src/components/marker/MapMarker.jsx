@@ -1,12 +1,17 @@
-import React from 'react';
-import { Marker } from 'react-map-gl';
-import LocationOnIcon from '@mui/icons-material/LocationOn';
+import React, {useContext} from 'react'
+import { Marker } from 'react-map-gl'
+import LocationOnIcon from '@mui/icons-material/LocationOn'
+import { LocationContext } from '../../context/LocationContext'
+import { AuthContext } from '../../context/AuthContext'
 
-const MapMarker = ({ pins, currentUsername, setCurrentPlaceId }) => {
+const MapMarker = () => {
+    const { currentUser } = useContext(AuthContext)
+    const { SetCurrentPlaceId , pins} = useContext(LocationContext)
+
     const handleMarkerClick = (id) => {
-        setCurrentPlaceId(id);
-        console.log(`${id}`);
-    };
+        SetCurrentPlaceId(id)
+        console.log(`${id}`)
+    }
 
     return (
         <>
@@ -21,7 +26,7 @@ const MapMarker = ({ pins, currentUsername, setCurrentPlaceId }) => {
                     <LocationOnIcon
                         style={{
                             fontSize: 40,
-                            color: p.username === currentUsername ? 'tomato' : 'slateblue',
+                            color: p.username === currentUser ? 'tomato' : 'slateblue',
                             cursor: 'pointer',
                         }}
                     />
@@ -29,7 +34,7 @@ const MapMarker = ({ pins, currentUsername, setCurrentPlaceId }) => {
             ))}
             
         </>
-    );
-};
+    )
+}
 
-export default MapMarker;
+export default MapMarker

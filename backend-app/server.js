@@ -5,18 +5,17 @@ const dotenv = require("dotenv")
 const pinRoute = require("./routes/pins")
 const userRoute = require("./routes/users")
 
-
 // Create express app
 const app = express()
-
-// Enable CORS for all origins
-app.use(cors())
 
 // dotenv config
 dotenv.config()
 
+// Enable CORS
+app.use(cors({ origin: process.env.CLIENT_URL}))
+
 // Parse JSON bodies
-app.use(express.json());
+app.use(express.json())
 
 //initialize the port-Enter a port
 const port = process.env.PORT
@@ -26,10 +25,10 @@ MONGO_URL - Enter the DB url '*/
 mongoose.connect(process.env.MONGO_URL)
 .then(() => console.log("MongoDB connected!"))
 .catch(err => {
-    console.error("MongoDB connection error:", err);
+    console.error("MongoDB connection error:", err)
     // Terminate the application if unable to connect MongoDB
-    process.exit(1);
-  });
+    process.exit(1)
+  })
 
     // API Routes
     app.use("/api/pins", pinRoute)

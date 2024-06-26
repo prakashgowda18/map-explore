@@ -1,14 +1,13 @@
-import React, { useState, lazy, Suspense } from 'react'
+import React, { useState, lazy, Suspense , useContext } from 'react'
 import Loader from '../ui/Loader'
 import Swal from 'sweetalert2' //Sweet alert
+
+import { AuthContext } from '../../context/AuthContext'
 const Register = lazy(() => import('../forms/register/Register'))
 const Login = lazy(() => import('../forms/login/Login'))
 
-const UserAuthentication = ({
-    currentUsername,
-    setCurrentUsername,
-    myStorage
-}) => {
+const UserAuthentication = () => {
+    const { currentUser , updateUser , myStorage } = useContext(AuthContext)
     const [showRegister, setShowRegister] = useState(false)
     const [showLogin, setShowLogin] = useState(false)
 
@@ -24,7 +23,7 @@ const UserAuthentication = ({
             confirmButtonText: "Yes, Logout !"
           }).then((result) => {
             if (result.isConfirmed) {
-                setCurrentUsername(null)
+                updateUser(null)
                 myStorage.removeItem("user")
             }
           })
@@ -32,7 +31,7 @@ const UserAuthentication = ({
 
     return (
         <>
-            {currentUsername ? (
+            {currentUser ? (
                 <button className="button logout" onClick={handleLogout}>
                     Log out
                 </button>
@@ -54,7 +53,7 @@ const UserAuthentication = ({
             )}
             <Suspense fallback={<Loader/>}> 
             {showRegister && <Register setShowRegister={setShowRegister} />}
-            {showLogin && <Login setShowLogin={setShowLogin} setCurrentUsername={setCurrentUsername} myStorage={myStorage} />}
+            {showLogin && <Login setShowLogin={setShowLogin}/>}
             </Suspense>
         </>
     )

@@ -1,7 +1,7 @@
 import LocationOnIcon from '@mui/icons-material/LocationOn'
 import CancelIcon from '@mui/icons-material/Cancel'
-import axios from "axios"
 import { useRef, useState } from "react"
+import apiRequest from '../../../lib/ApiReqest'
 import "./register.css"
 
 const Register = ({ setShowRegister })=> {
@@ -20,7 +20,7 @@ const Register = ({ setShowRegister })=> {
     }
 
     try {
-      await axios.post("http://localhost:8800/api/user/register", newUser)
+      await apiRequest.post("/api/user/register", newUser)
       setError(false)
       setSuccess(true)
     } catch (err) {
