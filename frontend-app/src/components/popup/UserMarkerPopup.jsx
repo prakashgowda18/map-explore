@@ -1,19 +1,19 @@
-import React , {lazy} from 'react'
+import React, { lazy, useContext } from 'react'
 import { Marker, Popup } from 'react-map-gl'
 import LocationOnIcon from '@mui/icons-material/LocationOn'
+
+import {LocationContext} from "../../context/LocationContext"
+import { AuthContext } from "../../context/AuthContext"
 const NewPopupForm = lazy(() => import('../forms/newPopup/NewPopupForm'))
 
-const UserMarkerPopup = ({
-    newPlace,
-    currentUsername,
-    pins,
-    setPins,
-    setNewPlace
-}) => {
+const UserMarkerPopup = () => {
+
+    const { newPlace, SetNewPlace } = useContext(LocationContext)
+    const { currentUser } = useContext(AuthContext)
 
     return (
         <div>
-            {newPlace && currentUsername && (
+            {newPlace && currentUser && (
                 <>
                     <Marker latitude={newPlace.lat} longitude={newPlace.long}>
                         <LocationOnIcon
@@ -29,16 +29,10 @@ const UserMarkerPopup = ({
                         longitude={newPlace.long}
                         anchor="left"
                         closeOnClick={false}
-                        onClose={() => setNewPlace(null)}
-                    >   
+                        onClose={() => SetNewPlace(null)}
+                    >
                         {/* New popup creation Form */}
-                        <NewPopupForm
-                            currentUsername={currentUsername}
-                            newPlace={newPlace}
-                            pins={pins}
-                            setPins={setPins}
-                            setNewPlace={setNewPlace}
-                        />
+                        <NewPopupForm />
                     </Popup>
 
                 </>

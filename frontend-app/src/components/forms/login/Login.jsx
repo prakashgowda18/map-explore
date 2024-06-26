@@ -1,13 +1,16 @@
 import LocationOnIcon from '@mui/icons-material/LocationOn'
 import CancelIcon from '@mui/icons-material/Cancel'
-import axios from "axios"
-import { useRef, useState } from "react"
+import { useRef, useState , useContext } from "react"
+import apiRequest from '../../../lib/ApiReqest'
+
+import { AuthContext } from '../../../context/AuthContext'
 import "./login.css"
 import Swal from 'sweetalert2' //Sweet alert
 
 
-const Login = ({ setShowLogin, setCurrentUsername,myStorage }) =>{
+const Login = ({ setShowLogin }) =>{
   const [error, setError] = useState(false)
+  const { updateUser , myStorage } = useContext(AuthContext)
   const usernameRef = useRef()
   const passwordRef = useRef()
 
@@ -18,8 +21,8 @@ const Login = ({ setShowLogin, setCurrentUsername,myStorage }) =>{
       password: passwordRef.current.value,
     }
     try {
-        const res = await axios.post("http://localhost:8800/api/user/login", user)
-        setCurrentUsername(res.data.username)
+        const res = await apiRequest.post("/api/user/login", user)
+        updateUser(res.data.username)
         myStorage.setItem('user', res.data.username)
         setShowLogin(false)
         const currentUsername = myStorage.getItem("user")
