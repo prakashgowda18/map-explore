@@ -56,9 +56,13 @@ Map-Explore is a full-stack travel application built using the MERN (MongoDB, Ex
 
     - Create a `.env` file in the frontend and backend directory.
     - Define the following environment variables:
-        - `MONGO_URL`: MongoDB connection URI.
-        - `PORT`: Port for Backend Server.
+        - Frontend
         - `REACT_APP_MAPBOX`: Mapbox access token for map integration.
+      - `REACT_APP_SERVER_URL`: Backend Server url.
+      - Backend
+      - `MONGO_URL`: MongoDB connection URI.
+        - `PORT`: Port for Backend Server.
+       - `CLIENT_URL`: Frontend Server Url.
 
 5. Start the backend server:
 
